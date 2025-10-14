@@ -34,6 +34,7 @@ export async function appManagerTest(driver) {
  */
 async function verifyHomePage(driver) {
   try {
+    await driver.sleep(3000);
     const logo = await driver.wait(until.elementLocated(locators.logo), 10000);
     await driver.wait(until.elementIsVisible(logo), 5000);
     const searchBar = await driver.wait(until.elementLocated(locators.searchBar), 10000);
