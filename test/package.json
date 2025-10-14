@@ -5,7 +5,6 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test:appmanager": "mocha tests/appManager.test.js --timeout 60000",
     "app": "npx mocha tests/app.test.js --timeout 900000 --reporter mochawesome",
     "mochaReport": "start mochawesome-report/mochawesome.html"
   },
