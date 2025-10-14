@@ -11,7 +11,7 @@ export async function createDriver() {
 
   // ✅ Always run in headless mode in CI (GitHub Actions)
   if (process.env.CI) {
-    options.addArguments("--headless=new");
+    options.addArguments("--headless=new");yl
     options.addArguments("--no-sandbox");
     options.addArguments("--disable-dev-shm-usage");
     options.addArguments("--disable-gpu");
@@ -30,3 +30,4 @@ export async function createDriver() {
 
   return driver;
 }
+//test comeent 
