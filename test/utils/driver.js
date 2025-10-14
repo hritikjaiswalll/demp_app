@@ -1,14 +1,32 @@
 import { Builder } from "selenium-webdriver";
-import { ServiceBuilder, Options } from "selenium-webdriver/chrome.js";
+import chrome from "selenium-webdriver/chrome.js";
 
-// const chromeDriverPath = "C:\\Users\\JagritChawla\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe";
+/**
+ * Creates and returns a Chrome WebDriver instance.
+ * Automatically detects if running in CI (GitHub Actions)
+ * and switches to headless mode.
+ */
 export async function createDriver() {
-  // const service = new ServiceBuilder(chromeDriverPath);
-  // const options = new Options();
-  // return await new Builder()
-  //   .forBrowser("chrome")
-  //   .setChromeService(service)
-  //   .setChromeOptions(options)
-  //   .build();
-   return await new Builder().forBrowser('chrome').build();
+  const options = new chrome.Options();
+
+  // ✅ Always run in headless mode in CI (GitHub Actions)
+  if (process.env.CI) {
+    options.addArguments("--headless=new");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--window-size=1920,1080");
+  }
+
+  // ✅ Optional: helps avoid notification popups etc.
+  options.addArguments("--disable-notifications");
+  options.addArguments("--disable-extensions");
+
+  // ✅ Build driver
+  const driver = await new Builder()
+    .forBrowser("chrome")
+    .setChromeOptions(options)
+    .build();
+
+  return driver;
 }

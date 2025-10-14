@@ -1,39 +1,34 @@
-name: Selenium Test CI
+name: selenium-tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
 jobs:
   selenium-tests:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: test  # 👈 All commands will run inside /test folder
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 18
+      - name: Use Node.js 18
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
-          cache-dependency-path: test/package-lock.json  # 👈 Cache dependencies properly
 
       - name: Install dependencies
-        run: npm install --no-fund --no-audit
+        working-directory: ./test
+        run: npm ci
 
-      - name: Run Selenium Tests (Mocha + Mochawesome)
-        run: npm run app
+      - name: Run Selenium Tests (mocha + mochawesome)
+        working-directory: ./test
+        run: npx mocha tests/app.test.js --timeout 900000 --reporter mochawesome
 
       - name: Upload Mochawesome Report
-        if: always()  # upload even if tests fail
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
-          path: test/mochawesome-report/
+          path: test/mochawesome-report/mochawesome.html
