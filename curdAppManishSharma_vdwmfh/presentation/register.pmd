@@ -1,0 +1,94 @@
+{
+  "id": "register",
+  "endPoints": [
+    {
+      "name": "getBusinessTitle",
+      "baseUrlType": "workday-orchestration",
+      "url": "triggeredNewRegisterUsers/launch",
+      "httpMethod": "GET",
+      "authType": "sso",
+      "deferred": true
+    },
+    {
+      "name": "saveRegisteredUser",
+      "baseUrlType": "app",
+      "url": "users",
+      "authType": "sso",
+      "deferred": true,
+      "httpMethod": "POST",
+      "onSend": "<% 
+      return {'name': name, 'email': email, 'password': password, 'title': title}; %>"
+    }
+  ],
+  "onSubmit": "<%
+    const registerFunction = function(){
+      const businessTitle = getBusinessTitle.invoke();
+      const tempData = saveRegisteredUser.invoke({
+        'name': name.getValue(), 
+        'email': email.getValue(), 
+        'password': password.getValue(),
+        'title': businessTitle.data.title
+      });
+      console.info('tempData', tempData)
+    }
+  %>",
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "CRUD Application - Register"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "required": true,
+          "id": "name",
+          "label": "Enter Name",
+          "placeholder": "Name"
+        },
+        {
+          "type": "text",
+          "required": true,
+          "id": "email",
+          "label": "Enter Email Address",
+          "placeholder": "Email address"
+        },
+        {
+          "type": "text",
+          "required": true,
+          "id": "password",
+          "label": "Enter Password",
+          "placeholder": "Password"
+        },
+        {
+          "type": "section",
+          "horizontal": true,
+          "children": [
+            {
+              "type": "richText",
+              "enabled": false,
+              "value": "Already have an account.?"
+            },
+            {
+              "type": "button",
+              "id": "registerPageRedirect",
+              "action": "LINK",
+              "label": "Login",
+              "taskReference": {
+                "taskId": "login"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [ ]
+    },
+    "pageType": "EDIT",
+    "standardEditButtonsHidden": false
+  }
+}

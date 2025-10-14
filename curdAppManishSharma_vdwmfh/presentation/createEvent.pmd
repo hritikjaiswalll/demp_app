@@ -1,0 +1,144 @@
+{
+  "id": "createEvent",
+  "endPoints": [
+    {
+      "name": "me",
+      "baseUrlType": "workday-staffing",
+      "url": "workers/me",
+      "authType": "sso"
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Create a Work Event"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name of Event",
+          "required": "<% true %>",
+          "valueOutBinding": "event.name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Proposed Location",
+          "required": "<% true %>",
+          "valueOutBinding": "event.location"
+        },
+        {
+          "type": "richText",
+          "id": "description",
+          "label": "Description",
+          "required": "<% true %>",
+          "valueOutBinding": "event.description",
+          "onChange": "<% if (!empty(self.value))
+                { if(validate:match('^.{0,1000}', self.value))
+                { self.clearError() } else { self.setError('Maximum character count (including markup) reached: 1000') } }
+                else { self.clearError() } %>"
+        },
+        {
+          "type": "text",
+          "id": "sponsor",
+          "label": "Event Sponsor",
+          "valueOutBinding": "event.sponsor",
+          "required": true,
+          "guide": {
+            "type": "guide",
+            "id": "guideName",
+            "title": "Sponsor Name",
+            "text": " Enter the Event Sponsors name:"
+          }
+        },
+        {
+          "type": "date",
+          "id": "date",
+          "label": "Date of Event",
+          "valueOutBinding": "event.date",
+          "required": true
+        },
+        {
+          "type": "text",
+          "id": "contactInfo",
+          "label": "Contact Info/Email",
+          "required": "<% true %>",
+          "valueOutBinding": "event.contactInfo"
+        },
+        {
+          "type": "currency",
+          "currencyCode": "USD",
+          "id": "cost",
+          "label": "Fee (USD)",
+          "minimumValue": "<% 0.01 %>",
+          "fractionDigits": 2,
+          "required": "<% true %>",
+          "valuesOut": [
+            {
+              "value": "USD",
+              "valueOutBinding": "event.cost.currency"
+            },
+            {
+              "value": "<% cost.value %>",
+              "valueOutBinding": "event.cost.value"
+            }
+          ]
+        },
+        {
+          "type": "radioGroup",
+          "id": "internalOnlyRadioGroup",
+          "label": "Is this an internal only event?",
+          "hideDisplayOption": "true",
+          "required": "true",
+          "selectedValues": "<% ! empty internalOnlyRadioGroup.value ? (internalOnlyRadioGroup.value ? ['yes'] : ['no'] ) : ['no']  %>",
+          "instanceList": [
+            {
+              "id": "yes",
+              "descriptor": "Yes"
+            },
+            {
+              "id": "no",
+              "descriptor": "No"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "enabled": "false",
+          "value": "Powered By Workday Extend"
+        }
+      ]
+    },
+    "pageType": "EDIT"
+  },
+  "securityDomains": [
+    "ManageCreateAnEvent"
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "event",
+        "baseUrlType": "app",
+        "url": "workEvents",
+        "httpMethod": "POST",
+        "authType": "sso",
+        "onSend": "<% //Outbound endpoint that submits the BO
+                   //self.data is the payload as it exists coming into this onSend event
+                   self.data.put('createdBy',{'id':me.id}); //add createdBy object
+                   self.data.internalOnly = internalOnlyRadioGroup.value[0] == 'yes' ? true : false; //convert internalOnly radio group response from String to Boolean
+                   self.data.createdBy.id = me.id; //add a createdBy value to our payload
+                   return self.data; //log payload to the analytics console
+                   %>"
+      }
+    ]
+  }
+}

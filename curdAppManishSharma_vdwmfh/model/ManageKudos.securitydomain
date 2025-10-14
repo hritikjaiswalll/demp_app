@@ -1,0 +1,6 @@
+{
+  "id": 2,
+  "name": "ManageKudos",
+  "enabledForPageSecurity": true,
+  "enabledForOrchestrationSecurity": false
+}

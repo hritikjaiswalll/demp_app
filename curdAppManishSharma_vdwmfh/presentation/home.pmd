@@ -1,0 +1,445 @@
+{
+  "id": "home",
+  "securityDomains": [
+    "ManageCreateAnEvent"
+  ],
+  "endPoints": [
+    {
+      "name": "events",
+      "baseUrlType": "app",
+      "url": "workEvents",
+      "authType": "sso",
+      "isCollection": "true"
+    },
+    {
+      "name": "kudos",
+      "baseUrlType": "app",
+      "url": "kudosAnnouncments",
+      "authType": "sso",
+      "isCollection": "true"
+    },
+    {
+      "name": "employeeDetails",
+      "baseUrlType": "workday-staffing",
+      "url": "<% 'workers/'+ empId %>",
+      "deferred": true
+    },
+    {
+      "name": "usersList",
+      "baseUrlType": "app",
+      "url": "users",
+      "authType": "sso",
+      "isCollection": "true"
+    },
+    {
+      "name": "rolesList",
+      "baseUrlType": "workday-staffing",
+      "url": "supervisoryOrganizations",
+      "authType": "sso",
+      "isCollection": "true"
+    }
+  ],
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "deleteEventData",
+        "baseUrlType": "app",
+        "url": "workEvents/<% eventColumn.value %>",
+        "httpMethod": "DELETE",
+        "authType": "sso",
+        "onSend": "<% console.info('Deleted event row --> ', eventColumn.value); %>"
+      },
+      {
+        "name": "deleteKudosData",
+        "baseUrlType": "app",
+        "url": "kudosAnnouncments/<% kudosColumn.value %>",
+        "httpMethod": "DELETE",
+        "authType": "sso",
+        "onSend": "<% console.info('Deleted kudos row --> ', kudosColumn.value); %>"
+      },
+      {
+        "name": "deleteUsersData",
+        "baseUrlType": "app",
+        "url": "users/<% usersColumn.value %>",
+        "httpMethod": "DELETE",
+        "authType": "sso",
+        "onSend": "<% console.info('Deleted user row --> ', usersColumn.value); %>"
+      },
+      {
+        "name": "postUserData",
+        "baseUrlType": "app",
+        "url": "users",
+        "httpMethod": "POST",
+        "authType": "sso",
+        "onSend": "<% 
+            // const finalRoleObject = self.data?.role ? self.data.role.map((k,v) => {'id': k}) : [];
+            // self.data.role = finalRoleObject;
+            console.info('Post Data -> ', json:asJSON(self.data));
+            self.data.password = '3edc#EDC';
+            return self.data;
+         %>",
+        "exclude": "<% ! empty usersColumn.value %>"
+      },
+      {
+        "name": "putUserData",
+        "baseUrlType": "app",
+        "url": "users/<% usersColumn.value %>",
+        "httpMethod": "PUT",
+        "authType": "sso",
+        "onSend": "<% 
+            // const finalRoleObject = self.data?.role ? self.data.role.map((k,v) => {'id': k}) : [];
+            // self.data.role = finalRoleObject;
+            console.info('Put Data -> ', json:asJSON(self.data));
+            return self.data;
+         %>",
+        "exclude": "<% empty usersColumn.value %>"
+      }
+    ]
+  },
+  "script": "<%
+    const deleteEventButton = function(id){
+      console.info('id from button: ', id);
+      deleteEventAPI.invoke({'deletedID': id});
+    }
+    const fetchUserDetailsById = function(data){
+      var finalData = [];
+      for(var i : data){
+        const user = employeeDetails.invoke({'empId': i.userId});
+        i['userName'] =  user.descriptor;
+        i['businessTitle'] =  user.primaryJob.businessTitle;
+        finalData.add(i);
+      }
+      return finalData;
+    }
+  %>",
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "CRUD App - Kudos and Events"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "section",
+          "horizontal": true,
+          "children": [
+            {
+              "type": "button",
+              "id": "createEventNavButton",
+              "action": "PRIMARY",
+              "label": "Create Event",
+              "taskReference": {
+                "taskId": "createEvent"
+              }
+            },
+            {
+              "type": "button",
+              "id": "createKudosButton",
+              "action": "AUXILIARY",
+              "label": "Give Kudos",
+              "taskReference": {
+                "taskId": "createKudos"
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "id": "eventsGrid",
+          "label": "Events Table",
+          "deleteEndPoint": "deleteEventData",
+          "rows": "<% events.data %>",
+          "rowVariableName": "event",
+          "doNotAdd": true,
+          "columns": [
+            {
+              "sortableAndFilterable": true,
+              "type": "column",
+              "columnId": "name",
+              "label": "Name of Event",
+              "cellTemplate": {
+                "enabled": false,
+                "type": "text",
+                "value": "<% event.name %>"
+              }
+            },
+            {
+              "cellTemplate": {
+                "type": "currency",
+                "label": "Amount (USD)",
+                "id": "cost",
+                "enabled": false,
+                "currencyCode": "USD",
+                "value": "<% event.cost.value ?: 0 %>",
+                "showCurrencySymbol": true,
+                "render": true,
+                "visible": true
+              },
+              "label": "Event Fee",
+              "columnId": "Cost",
+              "type": "column"
+            },
+            {
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% event.name %>"
+              },
+              "label": "Event Sponsor",
+              "sortableAndFilterable": true,
+              "columnId": "Sponsor",
+              "type": "column"
+            },
+            {
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% event.location %>"
+              },
+              "label": "Proposed Location",
+              "columnId": "Location",
+              "type": "column"
+            },
+            {
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% date:parse(event.date).format('MM/dd/YYYY') %>"
+              },
+              "label": "Date of Event",
+              "sortableAndFilterable": true,
+              "columnId": "DateOfEvent",
+              "type": "column"
+            },
+            {
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% event.createdBy.descriptor ?: '' %>"
+              },
+              "label": "Created By",
+              "columnId": "CreatedBy",
+              "type": "column"
+            },
+            {
+              "type": "column",
+              "columnId": "action",
+              "label": "Action",
+              "cellTemplate": {
+                "type": "section",
+                "children": [
+                  {
+                    "type": "button",
+                    "action": "AUXILIARY",
+                    "label": "Edit",
+                    "taskReference": {
+                      "taskId": "updateEvent",
+                      "parameterBindings": {
+                        "workEventId": "<% event.id %>"
+                      }
+                    }
+                  },
+                  {
+                    "type": "hidden",
+                    "id": "pageActionButton",
+                    "action": "AUXILIARY",
+                    "label": "Remove",
+                    "onClick": "<%  deleteEventButton(eventColumn.getValue()) %>"
+                  },
+                  {
+                    "type": "hidden",
+                    "enabled": false,
+                    "id": "eventColumn",
+                    "value": "<% event.id %>"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "id": "kudosGrid",
+          "label": "Kudos Anouncment Table",
+          "rows": "<% fetchUserDetailsById(kudos.data) %>",
+          "deleteEndPoint": "deleteKudosData",
+          "rowVariableName": "kudos",
+          "doNotAdd": true,
+          "columns": [
+            {
+              "type": "column",
+              "columnId": "kudosId",
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "id": "kudosColumn",
+                "value": "<% kudos.id %>",
+                "enable": false
+              },
+              "label": "ID"
+            },
+            {
+              "type": "column",
+              "columnId": "name",
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% kudos.userName %>"
+              },
+              "label": "Name of Employee",
+              "sortableAndFilterable": true
+            },
+            {
+              "type": "column",
+              "columnId": "businessTitle",
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% kudos.businessTitle %>"
+              },
+              "label": "Business Title",
+              "sortableAndFilterable": true
+            },
+            {
+              "type": "column",
+              "columnId": "description",
+              "cellTemplate": {
+                "type": "text",
+                "enabled": false,
+                "value": "<% kudos.description %>"
+              },
+              "label": "Description",
+              "sortableAndFilterable": true
+            },
+            {
+              "cellTemplate": {
+                "type": "readOnlyText",
+                "value": "<% kudos.createdBy.descriptor ?: '' %>"
+              },
+              "label": "Created By",
+              "columnId": "CreatedBy",
+              "type": "column"
+            }
+          ]
+        },
+        {
+          "type": "grid",
+          "id": "usersGrid",
+          "label": "Users Table",
+          "rows": "<% usersList.data %>",
+          "deleteEndPoint": "deleteUsersData",
+          "rowVariableName": "user",
+          "columns": [
+            {
+              "sortableAndFilterable": true,
+              "type": "column",
+              "columnId": "name",
+              "label": "Name of User",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% user.name %>",
+                "valuesOut": [
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "postUserData.name"
+                  },
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "putUserData.name"
+                  }
+                ]
+              }
+            },
+            {
+              "sortableAndFilterable": true,
+              "type": "column",
+              "columnId": "email",
+              "label": "Email Address",
+              "cellTemplate": {
+                "type": "text",
+                "enabled": "<% empty user.id %>",
+                "value": "<% user.email %>",
+                "valuesOut": [
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "postUserData.email"
+                  },
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "putUserData.email"
+                  }
+                ]
+              }
+            },
+            {
+              "sortableAndFilterable": true,
+              "type": "column",
+              "columnId": "title",
+              "label": "Title",
+              "cellTemplate": {
+                "type": "text",
+                "value": "<% user.title %>",
+                "valuesOut": [
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "postUserData.title"
+                  },
+                  {
+                    "value": "<% self.value %>",
+                    "valueOutBinding": "putUserData.title"
+                  }
+                ]
+              }
+            },
+            {
+              "sortableAndFilterable": true,
+              "type": "column",
+              "columnId": "assignRole",
+              "label": "Roles",
+              "cellTemplate": {
+                "type": "fieldSet",
+                "children": [
+                  {
+                    "type": "instanceList",
+                    "id": "worker",
+                    "multiSelect": true,
+                    "selectedValues": "<% user.role.map((k)=>k.id) ?? [] %>",
+                    "values": "<% rolesList.data %>",
+                    "valuesOut": [
+                      {
+                        "value": "<% self.selectedValue %>",
+                        "valueOutBinding": "postUserData.role"
+                      },
+                      {
+                        "value": "<% self.selectedValue %>",
+                        "valueOutBinding": "putUserData.role"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "hidden",
+                    "id": "usersColumn",
+                    "value": "<% user.id %>",
+                    "valuesOut": [
+                      {
+                        "value": "<% self.value %>",
+                        "valueOutBinding": "putUserData.id"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [
+        {
+          "type": "richText",
+          "enabled": "false",
+          "value": "Powered By Workday Extend"
+        }
+      ]
+    },
+    "pageType": "EDIT",
+    "standardEditButtonsHidden": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "selenium_structure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test:appmanager": "mocha tests/appManager.test.js --timeout 60000",
+    "app": "npx mocha tests/app.test.js --timeout 900000 --reporter mochawesome",
+    "mochaReport": "start mochawesome-report/mochawesome.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "chai": "^6.2.0",
+    "mocha": "^11.7.4",
+    "mochawesome": "^7.1.4",
+    "selenium-webdriver": "^4.36.0"
+  }
+}

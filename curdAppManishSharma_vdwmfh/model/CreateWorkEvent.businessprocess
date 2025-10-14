@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "CreateWorkEvent",
+  "label": "Create Work Event",
+  "description": "Business Process Type for CreateWorkEvent",
+  "useForOrchestrate": false,
+  "allowsCancel": true,
+  "approvalStep": {
+    "pageRoute": "/approve/{eventId}",
+    "actions": [
+      "APPROVE",
+      "DENY",
+      "SEND_BACK"
+    ]
+  },
+  "actionSteps": [
+    {
+      "pageRoute": "/review/{eventStepId}",
+      "label": "Book Event Space",
+      "name": "BookEventSpace",
+      "id": 1
+    }
+  ],
+  "targetBusinessObject": "WorkEvent",
+  "securityDomains": [
+    "ManageCreateAnEvent"
+  ],
+  "revisePageRoute": "/revise/{eventStepId}",
+  "details": {
+    "pageRoute": "/details/{eventId}"
+  }
+}

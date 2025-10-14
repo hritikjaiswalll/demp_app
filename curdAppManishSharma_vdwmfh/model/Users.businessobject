@@ -1,0 +1,61 @@
+{
+  "id": 3,
+  "name": "Users",
+  "label": "Users",
+  "defaultSecurityDomains": [
+    "ManageUsers"
+  ],
+  "defaultCollection": {
+    "name": "users",
+    "label": "Users"
+  },
+  "fields": [
+    {
+      "enableSearch": false,
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "type": "TEXT",
+      "name": "name",
+      "id": 1
+    },
+    {
+      "enableSearch": false,
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "type": "TEXT",
+      "name": "email",
+      "id": 2
+    },
+    {
+      "enableSearch": false,
+      "enableIndex": false,
+      "isPurgeable": false,
+      "useForDisplay": false,
+      "isReferenceId": false,
+      "type": "TEXT",
+      "name": "password",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "name": "title",
+      "type": "TEXT",
+      "isReferenceId": false,
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "enableIndex": false,
+      "enableSearch": false
+    },
+    {
+      "id": 5,
+      "name": "role",
+      "type": "MULTI_INSTANCE",
+      "isPurgeable": false,
+      "target": "SUPERVISORY_ORGANIZATION"
+    }
+  ]
+}

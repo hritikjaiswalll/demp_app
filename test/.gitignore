@@ -1,0 +1,65 @@
+# ============================================================
+# Node.js & Mocha Selenium Project .gitignore
+# ============================================================
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+
+# Build and cache
+dist/
+build/
+tmp/
+temp/
+.cache/
+coverage/
+logs/
+
+# Reports
+mochawesome-report/
+reports/
+
+
+# Screenshots
+reports/screenshots/
+screenshots/
+
+# Selenium / WebDriver logs
+chromedriver.log
+geckodriver.log
+
+# Misc
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Local test artifacts
+test-output/
+test-results/
+*.retry
+
+# Backup or temporary files
+*.bak
+*.tmp
+*.old
+
+# Optional - ignore local test data
+data/*.json

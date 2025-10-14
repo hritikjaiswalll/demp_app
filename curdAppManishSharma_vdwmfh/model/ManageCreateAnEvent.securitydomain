@@ -1,0 +1,6 @@
+{
+  "id": 1,
+  "name": "ManageCreateAnEvent",
+  "enabledForPageSecurity": true,
+  "enabledForOrchestrationSecurity": false
+}

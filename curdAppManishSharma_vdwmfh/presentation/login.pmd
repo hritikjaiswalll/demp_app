@@ -1,0 +1,90 @@
+{
+  "id": "login",
+  "endPoints": [ ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "CRUD Application - Login"
+    },
+    "body": {
+      "microFirstPageOnly": "true",
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "congratulationsPopup",
+          "visible": false,
+          "textCongrats": "Your Updates Have Been Saved!"
+        },
+        {
+          "type": "text",
+          "required": true,
+          "id": "email",
+          "label": "Enter Email Address",
+          "placeholder": "Email address",
+          "valueOutBinding": "checkLoginDetails.email"
+        },
+        {
+          "type": "text",
+          "required": true,
+          "id": "password",
+          "label": "Enter Password",
+          "placeholder": "Password",
+          "valueOutBinding": "checkLoginDetails.password"
+        },
+        {
+          "type": "section",
+          "horizontal": true,
+          "children": [
+            {
+              "type": "richText",
+              "enabled": false,
+              "value": "Dont have account.?"
+            },
+            {
+              "type": "button",
+              "id": "registerPageRedirect",
+              "action": "LINK",
+              "label": "Register",
+              "taskReference": {
+                "taskId": "register"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "footer",
+      "children": [ ]
+    },
+    "pageType": "EDIT",
+    "standardEditButtonsHidden": false
+  },
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "checkLoginDetails",
+        "baseUrlType": "workday-wql",
+        "authType": "sso",
+        "url": "/data",
+        "httpMethod": "POST",
+        "onSend": "<% 
+              const wql = `SELECT email, password FROM {{site.applicationId}}_users where email = '{{email.value}}' AND  password = '{{password.value}}'`;
+              return {'query': wql};
+        %>"
+      },
+      {
+        "type": "outboundVariable",
+        "name": "isAuthenticatedUser",
+        "variableScope": "flow",
+        "values": [
+          {
+            "outboundPath": "isAuthenticated",
+            "value": "<% console.info('checkLoginDetails -> ', checkLoginDetails); checkLoginDetails.total == 1 %>"
+          }
+        ]
+      }
+    ]
+  }
+}

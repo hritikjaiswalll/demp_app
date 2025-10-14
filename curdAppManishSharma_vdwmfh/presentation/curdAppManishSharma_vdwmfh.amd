@@ -1,0 +1,133 @@
+{
+  "appProperties": [ ],
+  "flowDefinitions": [
+    {
+      "id": "flowNewPage",
+      "flowSteps": [
+        {
+          "id": "login",
+          "transitions": [
+            {
+              "order": "a",
+              "value": "step2",
+              "condition": "<% flowVariables.isAuthenticated == true %>"
+            },
+            {
+              "order": "b",
+              "value": "step0",
+              "condition": "<% flowVariables.isAuthenticated == false %>"
+            }
+          ],
+          "taskId": "login"
+        },
+        {
+          "id": "step2",
+          "taskId": "home"
+        },
+        {
+          "id": "step0",
+          "taskId": "login"
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "createEvent",
+      "routingPattern": "/createEvent",
+      "page": {
+        "id": "createEvent"
+      }
+    },
+    {
+      "id": "home",
+      "routingPattern": "/",
+      "page": {
+        "id": "home"
+      }
+    },
+    {
+      "id": "updateEvent",
+      "routingPattern": "/updateEvent",
+      "page": {
+        "id": "updateEvent"
+      }
+    },
+    {
+      "id": "createKudos",
+      "routingPattern": "/createKudos",
+      "page": {
+        "id": "createKudos"
+      }
+    },
+    {
+      "id": "login",
+      "routingPattern": "/login",
+      "page": {
+        "id": "login"
+      }
+    },
+    {
+      "id": "register",
+      "routingPattern": "/register",
+      "page": {
+        "id": "register"
+      }
+    },
+    {
+      "id": "viewRequestByEventID",
+      "routingPattern": "/details/{eventId}",
+      "page": {
+        "id": "viewRequestByEventID"
+      }
+    },
+    {
+      "id": "workEventApprove",
+      "routingPattern": "/approve/{eventId}",
+      "page": {
+        "id": "workEventApprove"
+      }
+    },
+    {
+      "id": "workEventActionStep",
+      "routingPattern": "/review/{eventStepId}",
+      "page": {
+        "id": "workEventActionStep"
+      }
+    },
+    {
+      "id": "workEventRevise",
+      "routingPattern": "/revise/{eventStepId}",
+      "page": {
+        "id": "workEventRevise"
+      }
+    }
+  ],
+  "applicationId": "curdAppManishSharma_vdwmfh",
+  "dataProviders": [
+    {
+      "key": "app",
+      "value": "https://api.workday.com/apps/<% site.applicationId %>/v1/"
+    },
+    {
+      "key": "workday-bp",
+      "value": "https://api.workday.com/businessProcess/v1/"
+    },
+    {
+      "key": "workday-common",
+      "value": "https://api.workday.com/common/v1/"
+    },
+    {
+      "key": "workday-staffing",
+      "value": "https://api.workday.com/staffing/v1/"
+    },
+    {
+      "key": "workday-orchestration",
+      "value": "https://api.workday.com/orchestrate/v1/apps/<% site.applicationId %>/orchestrations/"
+    },
+    {
+      "key": "workday-wql",
+      "value": "https://api.workday.com/wql/v1/"
+    }
+  ]
+}

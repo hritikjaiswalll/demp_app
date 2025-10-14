@@ -1,0 +1,44 @@
+{
+  "id": 2,
+  "name": "KudosAnnouncment",
+  "label": "Kudos Announcment",
+  "defaultSecurityDomains": [
+    "ManageKudos"
+  ],
+  "defaultCollection": {
+    "name": "kudosAnnouncments",
+    "label": "Kudos Announcments"
+  },
+  "fields": [
+    {
+      "id": 3,
+      "name": "userId",
+      "type": "TEXT",
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "isReferenceId": false,
+      "enableIndex": false,
+      "enableSearch": false
+    },
+    {
+      "id": 4,
+      "name": "description",
+      "type": "TEXT",
+      "isReferenceId": false,
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "enableIndex": false,
+      "enableSearch": false
+    },
+    {
+      "id": 5,
+      "name": "createdBy",
+      "type": "SINGLE_INSTANCE",
+      "useForDisplay": false,
+      "isPurgeable": false,
+      "target": "WORKER",
+      "secureByTarget": true,
+      "enableReportingFromTarget": false
+    }
+  ]
+}

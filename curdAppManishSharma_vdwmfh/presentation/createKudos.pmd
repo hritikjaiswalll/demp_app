@@ -1,0 +1,135 @@
+{
+  "id": "createKudos",
+  "endPoints": [
+    {
+      "name": "me",
+      "baseUrlType": "workday-staffing",
+      "url": "workers/me",
+      "authType": "sso"
+    },
+    {
+      "name": "getEmployeesList",
+      "baseUrlType": "workday-staffing",
+      "url": "workers",
+      "auth": "sso"
+    },
+    {
+      "name": "getEmployeesByName",
+      "baseUrlType": "workday-staffing",
+      "url": "<% 'workers?search=' + employeeName %>",
+      "deferred": true,
+      "ignoreFailures": [
+        {
+          "code": 404,
+          "codeName": "Not found"
+        }
+      ]
+    },
+    {
+      "name": "employeeDetails",
+      "baseUrlType": "workday-staffing",
+      "url": "<% 'workers/'+ empId %>",
+      "deferred": true
+    }
+  ],
+  "presentation": {
+    "title": {
+      "type": "title",
+      "label": "Kudos to Employees"
+    },
+    "body": {
+      "type": "section",
+      "horizontal": false,
+      "children": [
+        {
+          "type": "instanceList",
+          "id": "employeesList",
+          "label": "Search Employee's (Press Enter)",
+          "values": "<% getEmployeesList.data %>",
+          "required": true,
+          "valueOutBinding": "kudos.userId",
+          "onSearch": "<%
+              const empList = getEmployeesByName.invoke({'employeeName': event.query});
+              empList.data ?? [];
+          %>",
+          "onChange": "<%
+            if(! empty(self.selectedEntries)){
+              const getEmpDetails = employeeDetails.invoke({'empId' : self.selectedEntries[0].id});
+              dynamicEmpData.data =  {'descriptor': getEmpDetails.descriptor, 'email': getEmpDetails.person.email, 'businessTitle':getEmpDetails.primaryJob.businessTitle};
+              dynamicEmpData.visible = true;
+            }else{
+               dynamicEmpData.data =  {'descriptor': '', 'email': '', 'businessTitle': ''};
+              dynamicEmpData.visible = false;
+            }
+          %>"
+        },
+        {
+          "type": "dynamicSection",
+          "id": "dynamicEmpData",
+          "data": "<% '' %>",
+          "dataVariableName": "employee",
+          "visible": false,
+          "children": [
+            {
+              "type": "section",
+              "horizontal": true,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "employeeName",
+                  "label": "Employee Name",
+                  "enabled": false,
+                  "value": "<% employee.descriptor ?: '-' %>"
+                },
+                {
+                  "type": "text",
+                  "id": "email",
+                  "label": "Email Address",
+                  "enabled": false,
+                  "value": "<% employee.email ?: '-' %>"
+                },
+                {
+                  "type": "text",
+                  "id": "businessTitle",
+                  "label": "Business Title",
+                  "enabled": false,
+                  "value": "<% employee.businessTitle ?: '-' %>"
+                }
+              ]
+            },
+            {
+              "type": "textArea",
+              "id": "description",
+              "required": true,
+              "label": "Description",
+              "valueOutBinding": "kudos.description",
+              "onChange": "<% if (!empty(self.value))
+                { if(validate:match('^.{0,1000}', self.value))
+                { self.clearError() } else { self.setError('Maximum character count (including markup) reached: 1000') } }
+                else { self.clearError() } %>"
+            }
+          ]
+        }
+      ]
+    },
+    "pageType": "EDIT"
+  },
+  "outboundData": {
+    "outboundEndPoints": [
+      {
+        "name": "kudos",
+        "baseUrlType": "app",
+        "url": "kudosAnnouncments",
+        "authType": "sso",
+        "onSend": "<% 
+                   self.data.put('createdBy',{'id':me.id}); //add createdBy object
+                   self.data.createdBy.id = me.id; //add a createdBy value to our payload
+                   return self.data;
+                 %>"
+      }
+    ]
+  },
+  "securityDomains": [
+    "ManageKudos"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": 1,
+  "name": "WorkEvent",
+  "label": "Work Event",
+  "defaultSecurityDomains": [
+    "ManageCreateAnEvent"
+  ],
+  "defaultCollection": {
+    "name": "workEvents",
+    "label": "All Work Events"
+  },
+  "fields": [
+    {
+      "id": 1,
+      "name": "name",
+      "label": "Event Name",
+      "type": "TEXT",
+      "useForDisplay": true,
+      "isReferenceId": true
+    },
+    {
+      "id": 2,
+      "name": "location",
+      "label": "Event Location",
+      "type": "TEXT"
+    },
+    {
+      "id": 3,
+      "name": "description",
+      "label": "Event Description",
+      "type": "TEXT"
+    },
+    {
+      "id": 4,
+      "name": "sponsor",
+      "label": "Sponsor",
+      "type": "TEXT"
+    },
+    {
+      "id": 5,
+      "name": "date",
+      "label": "Date of Event",
+      "type": "DATE",
+      "precision": "DAY"
+    },
+    {
+      "id": 6,
+      "name": "contactInfo",
+      "label": "Contact Info",
+      "type": "TEXT"
+    },
+    {
+      "id": 7,
+      "name": "cost",
+      "label": "Event Fee",
+      "type": "CURRENCY"
+    },
+    {
+      "id": 8,
+      "name": "createdBy",
+      "label": "Created By",
+      "type": "SINGLE_INSTANCE",
+      "target": "WORKER",
+      "secureByTarget": true
+    },
+    {
+      "id": 9,
+      "name": "internalOnly",
+      "label": "Internal Only Event",
+      "type": "BOOLEAN"
+    },
+    {
+      "id": 11,
+      "name": "venue",
+      "label": "Event Venue",
+      "type": "SINGLE_INSTANCE",
+      "target": "LOCATION"
+    }
+  ]
+}
