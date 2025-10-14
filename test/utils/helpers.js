@@ -16,3 +16,4 @@ export async function getText(driver, locator) {
   const el = await driver.findElement(locator);
   return await el.getText();
 }
+//tester
