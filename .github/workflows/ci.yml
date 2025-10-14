@@ -1,0 +1,61 @@
+name: CI - Selenium Tests with Mochawesome
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  selenium-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: test   # 👈 Run everything from inside the 'test' folder
+    timeout-minutes: 30
+
+    steps:
+      # 1️⃣ Check out code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Node.js
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      # 3️⃣ Install Chromium + ChromeDriver (for Selenium)
+      - name: Install Chromium and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser chromium-chromedriver
+          chromium-browser --version
+          chromedriver --version
+        shell: bash
+
+      # 4️⃣ Point Selenium to Chromium binary
+      - name: Set Chrome path
+        run: echo "CHROME_BIN=/usr/bin/chromium-browser" >> $GITHUB_ENV
+
+      # 5️⃣ Install npm dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 6️⃣ Run Selenium + Mocha tests
+      - name: Run Selenium Tests
+        run: npm run app
+        env:
+          CI: true
+          HEADLESS: 'true'
+
+      # 7️⃣ Upload Mochawesome report
+      - name: Upload Mochawesome Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: |
+            mochawesome-report/mochawesome.html
+            mochawesome-report/mochawesome.json
