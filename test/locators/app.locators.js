@@ -18,3 +18,5 @@ export const EventPageLocators = {
   employeeDescriptionInput: By.xpath("//textarea[@data-automation-id='textAreaField' and @role='textbox']"),
   clickOkBtn: By.xpath("//button[@type='button' and @title='OK' and @data-automation-id='wd-CommandButton_uic_okButton']//span[normalize-space(text())='OK']")
 };
+
+//test
