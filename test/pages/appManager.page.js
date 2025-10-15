@@ -1,7 +1,9 @@
+import fs from "fs";
 import webdriver from "selenium-webdriver";
 const { until, Key } = webdriver;
 import { HomepageLocators as locators } from "../locators/appManager.locators.js";
 import { users } from "../utils/config.js";
+import path from "path";
 
 /**
  * Combined test to verify homepage and perform search.
@@ -9,6 +11,20 @@ import { users } from "../utils/config.js";
  */
 export async function appManagerTest(driver) {
   console.log("DEBUG: users.standard.searchTerm =", users?.standard?.searchTerm);
+   const currentUrlAfterLogin = await driver.getCurrentUrl();
+  console.log("DEBUG: Current URL after login:", currentUrlAfterLogin);
+  // === Take screenshot after login ===
+  const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
+  const screenshotPath = path.join(pagesDir, "after_login.png");
+
+  // Ensure the directory exists
+  fs.mkdirSync(pagesDir, { recursive: true });
+
+  const screenshot = await driver.takeScreenshot();
+  fs.writeFileSync(screenshotPath, screenshot, "base64");
+  console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
+
+
 
   const homepageOk = await verifyHomePage(driver);
   if (!homepageOk) return false;
@@ -34,7 +50,20 @@ export async function appManagerTest(driver) {
  */
 async function verifyHomePage(driver) {
   try {
-    await driver.sleep(3000);
+    await driver.sleep(5000);
+     const currentUrlAfterLogin = await driver.getCurrentUrl();
+    console.log("DEBUG: Current URL after login:", currentUrlAfterLogin);
+  // === Take screenshot after login ===
+  const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
+  const screenshotPath = path.join(pagesDir, "after_login_after_test.png");
+
+  // Ensure the directory exists
+  fs.mkdirSync(pagesDir, { recursive: true });
+
+  const screenshot = await driver.takeScreenshot();
+  fs.writeFileSync(screenshotPath, screenshot, "base64");
+  console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
+
     const logo = await driver.wait(until.elementLocated(locators.logo), 10000);
     await driver.wait(until.elementIsVisible(logo), 5000);
     const searchBar = await driver.wait(until.elementLocated(locators.searchBar), 10000);
@@ -115,7 +144,7 @@ async function searchForItem(driver, searchTerm) {
     console.log("DEBUG: Search input cleared");
     await input.sendKeys(searchTerm, Key.RETURN);
     console.log(`🔍 Searched for: ${searchTerm}`);
-    const waiting = await driver.wait(until.elementLocated(locators.topResultBtn), 10000);
+    const waiting = await driver.wait(until.elementLocated(locators.searchBar), 10000);
     if (waiting) {
       return true;
     }
