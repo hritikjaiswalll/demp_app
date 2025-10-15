@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { createDriver } from "../utils/driver.js";
-import { baseUrl } from "../utils/config.js";
-import { appManagerTest } from "../pages/appManager.page.js";
-import { performLogin } from "../pages/login.page.js";
-import { waitForCreateEventBtn, clickCreateEventBtn, fillEventForm, clickOkBtn, giveKudos } from "../pages/app.page.js";
+import { createDriver } from "../../utils/driver.js";
+import { baseUrl } from "../../utils/config.js";
+import { appManagerTest } from "../../pages/baseApp/appManager.page.js";
+import { performLogin } from "../../pages/baseApp/login.page.js";
+import { waitForCreateEventBtn, clickCreateEventBtn, fillEventForm, clickOkBtn, giveKudos } from "../../pages/demoApp/app.page.js";
 
 describe("App Manager Verification Flow", function () {
   this.timeout(120000); // 2 minutes

@@ -1,7 +1,7 @@
 import webdriver from "selenium-webdriver";
 const { until, Key, By } = webdriver;
-import { EventPageLocators as locators } from "../locators/app.locators.js";
-import { generateAppVariables } from "../utils/config.js";
+import { EventPageLocators as locators } from "../../locators/demoApp/app.locators.js";
+import { generateAppVariables } from "../../utils/config.js";
 
 const appVariables = generateAppVariables();
 

@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { createDriver } from "../utils/driver.js";
-import { baseUrl } from "../utils/config.js";
-import { appManagerTest } from "../pages/appManager.page.js";
-import { performLogin } from "../pages/login.page.js";
+import { createDriver } from "../../utils/driver.js";
+import { baseUrl } from "../../utils/config.js";
+import { appManagerTest } from "../pages/baseApp/appManager.page.js";
+import { performLogin } from "../pages/baseApp/login.page.js";
 
 describe("App Manager verification after login", function () {
   this.timeout(90000); // different method 

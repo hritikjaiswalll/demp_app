@@ -1,7 +1,7 @@
 import { By, until } from "selenium-webdriver";
-import { click, type } from "../utils/helpers.js";
-import { LoginLocators as locators } from "../locators/login.locators.js";
-import { users } from "../utils/config.js";
+import { click, type } from "../../utils/helpers.js";
+import { LoginLocators as locators } from "../../locators/baseApp/login.locators.js";
+import { users } from "../../utils/config.js";
 
 export async function clickWorkdayCredsBtn(driver) {
   const element = await driver.wait(until.elementLocated(locators.workdayCredsBtn), 10000);

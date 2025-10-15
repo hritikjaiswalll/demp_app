@@ -1,6 +1,6 @@
-import { performLogin } from "../pages/login.page.js";
-import { createDriver } from "../utils/driver.js";
-import { baseUrl } from "../utils/config.js";
+import { performLogin } from "../pages/baseApp/login.page.js";
+import { createDriver } from "../../utils/driver.js";
+import { baseUrl } from "../../utils/config.js";
 
 export function loginTestSuite(suiteName = "Login on Workday Tenant 3") {
   describe(suiteName, function () {

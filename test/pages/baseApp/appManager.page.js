@@ -1,8 +1,8 @@
 import fs from "fs";
 import webdriver from "selenium-webdriver";
 const { until, Key } = webdriver;
-import { HomepageLocators as locators } from "../locators/appManager.locators.js";
-import { users } from "../utils/config.js";
+import { HomepageLocators as locators } from "../../locators/baseApp/appManager.locators.js";
+import { users } from "../../utils/config.js";
 import path from "path";
 
 /**
