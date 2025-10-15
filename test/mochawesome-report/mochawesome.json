@@ -1,0 +1,214 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-10-15T13:22:08.799Z",
+    "end": "2025-10-15T13:23:19.185Z",
+    "duration": 70386,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "da41a560-2577-44cb-8d0c-f7116f816e66",
+      "title": "",
+      "fullFile": "C:\\Users\\HritikKumar\\OneDrive - Makse Group\\Documents\\GitHub\\demp_app\\test\\tests\\app.test.js",
+      "file": "\\tests\\app.test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+          "title": "App Manager Verification Flow",
+          "fullFile": "C:\\Users\\HritikKumar\\OneDrive - Makse Group\\Documents\\GitHub\\demp_app\\test\\tests\\app.test.js",
+          "file": "\\tests\\app.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook in \"App Manager Verification Flow\"",
+              "fullTitle": "App Manager Verification Flow \"before all\" hook in \"App Manager Verification Flow\"",
+              "timedOut": false,
+              "duration": 49297,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "driver = await createDriver();\nawait driver.get(baseUrl);\nawait performLogin(driver);\nawait appManagerTest(driver);\nconst handles = await driver.getAllWindowHandles();\nawait driver.switchTo().window(handles[handles.length - 1]);",
+              "err": {},
+              "uuid": "c9ea3b7b-141f-411f-9faf-68ac30d4b2f1",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook in \"App Manager Verification Flow\"",
+              "fullTitle": "App Manager Verification Flow \"after all\" hook in \"App Manager Verification Flow\"",
+              "timedOut": false,
+              "duration": 136,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit();",
+              "err": {},
+              "uuid": "ef50d258-98c1-4efb-91dd-9799f3b4cb4a",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "should verify the homepage of the app",
+              "fullTitle": "App Manager Verification Flow should verify the homepage of the app",
+              "timedOut": false,
+              "duration": 3502,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const result = await waitForCreateEventBtn(driver);\nexpect(result).to.be.true;",
+              "err": {},
+              "uuid": "84ad5dd6-01be-4732-a10c-4d9efa811aed",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should click on Create Event Button",
+              "fullTitle": "App Manager Verification Flow should click on Create Event Button",
+              "timedOut": false,
+              "duration": 354,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const result = await clickCreateEventBtn(driver);\nexpect(result).to.be.true;",
+              "err": {},
+              "uuid": "b8c322e1-2d9c-4d73-b537-86409edba6ca",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should fill the Form of Event",
+              "fullTitle": "App Manager Verification Flow should fill the Form of Event",
+              "timedOut": false,
+              "duration": 6110,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const result = await fillEventForm(driver);\nexpect(result).to.be.true;",
+              "err": {},
+              "uuid": "ff4005f2-9c88-4d0d-bc5d-cd57ae262b6e",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should Click ok",
+              "fullTitle": "App Manager Verification Flow should Click ok",
+              "timedOut": false,
+              "duration": 362,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const result = await clickOkBtn(driver);\nexpect(result).to.be.true;",
+              "err": {},
+              "uuid": "5d0d9584-99d3-4c4e-b42a-fe770352fe37",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should give a kudos to an employee",
+              "fullTitle": "App Manager Verification Flow should give a kudos to an employee",
+              "timedOut": false,
+              "duration": 10610,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const result = await giveKudos(driver);\nexpect(result).to.be.true;",
+              "err": {},
+              "uuid": "b84c52de-c7a5-4b71-b768-4164ff3438f5",
+              "parentUUID": "adbd92c1-bcde-40b0-9932-3ef4b7d360aa",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "84ad5dd6-01be-4732-a10c-4d9efa811aed",
+            "b8c322e1-2d9c-4d73-b537-86409edba6ca",
+            "ff4005f2-9c88-4d0d-bc5d-cd57ae262b6e",
+            "5d0d9584-99d3-4c4e-b42a-fe770352fe37",
+            "b84c52de-c7a5-4b71-b768-4164ff3438f5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20938,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 120000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 900000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.4"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.3.0"
+    }
+  }
+}

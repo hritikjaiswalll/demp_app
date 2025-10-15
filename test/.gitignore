@@ -33,7 +33,7 @@ coverage/
 logs/
 
 # Reports
-mochawesome-report/
+mochawesome-report/assets/
 reports/
 
 
