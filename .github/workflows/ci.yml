@@ -25,7 +25,7 @@ jobs:
 
       - name: Run Selenium Tests (mocha + mochawesome)
         working-directory: ./test
-        run: npx mocha tests/app.test.js --timeout 900000 --reporter mochawesome
+        run: npx mocha tests/demoApp/app.test.js --timeout 900000 --reporter mochawesome
 
       - name: Upload Mochawesome Report
         uses: actions/upload-artifact@v4
