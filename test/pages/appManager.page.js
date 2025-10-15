@@ -13,16 +13,16 @@ export async function appManagerTest(driver) {
   console.log("DEBUG: users.standard.searchTerm =", users?.standard?.searchTerm);
    const currentUrlAfterLogin = await driver.getCurrentUrl();
   console.log("DEBUG: Current URL after login:", currentUrlAfterLogin);
-  // === Take screenshot after login ===
-  const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
-  const screenshotPath = path.join(pagesDir, "after_login.png");
+  // // === Take screenshot after login ===
+  // const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
+  // const screenshotPath = path.join(pagesDir, "after_login.png");
 
-  // Ensure the directory exists
-  fs.mkdirSync(pagesDir, { recursive: true });
+  // // Ensure the directory exists
+  // fs.mkdirSync(pagesDir, { recursive: true });
 
-  const screenshot = await driver.takeScreenshot();
-  fs.writeFileSync(screenshotPath, screenshot, "base64");
-  console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
+  // const screenshot = await driver.takeScreenshot();
+  // fs.writeFileSync(screenshotPath, screenshot, "base64");
+  // console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
 
 
 
@@ -53,16 +53,16 @@ async function verifyHomePage(driver) {
     await driver.sleep(5000);
      const currentUrlAfterLogin = await driver.getCurrentUrl();
     console.log("DEBUG: Current URL after login:", currentUrlAfterLogin);
-  // === Take screenshot after login ===
-  const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
-  const screenshotPath = path.join(pagesDir, "after_login_after_test.png");
+  // // === Take screenshot after login ===
+  // const pagesDir = path.resolve("./test/pages"); // resolve absolute path to 'pages' folder
+  // const screenshotPath = path.join(pagesDir, "after_login_after_test.png");
 
-  // Ensure the directory exists
-  fs.mkdirSync(pagesDir, { recursive: true });
+  // // Ensure the directory exists
+  // fs.mkdirSync(pagesDir, { recursive: true });
 
-  const screenshot = await driver.takeScreenshot();
-  fs.writeFileSync(screenshotPath, screenshot, "base64");
-  console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
+  // const screenshot = await driver.takeScreenshot();
+  // fs.writeFileSync(screenshotPath, screenshot, "base64");
+  // console.log(`DEBUG: Screenshot saved at ${screenshotPath}`);
 
     const logo = await driver.wait(until.elementLocated(locators.logo), 10000);
     await driver.wait(until.elementIsVisible(logo), 5000);
