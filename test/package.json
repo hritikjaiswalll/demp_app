@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "app": "mocha tests/app.test.js --timeout 900000 --reporter mochawesome",
+    "app": "mocha tests/demoApp/app.test.js --timeout 900000 --reporter mochawesome",
     "mochaReport": "start mochawesome-report/mochawesome.html"
   },
   "keywords": [],

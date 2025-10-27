@@ -4,6 +4,7 @@ import { baseUrl } from "../../utils/config.js";
 import { appManagerTest } from "../../pages/baseApp/appManager.page.js";
 import { performLogin } from "../../pages/baseApp/login.page.js";
 import { waitForCreateEventBtn, clickCreateEventBtn, fillEventForm, clickOkBtn, giveKudos } from "../../pages/demoApp/app.page.js";
+import { startProxyFlow } from "../../pages/baseApp/startProxy.page.js";
 
 describe("App Manager Verification Flow", function () {
   this.timeout(120000); // 2 minutes
@@ -14,6 +15,7 @@ describe("App Manager Verification Flow", function () {
     driver = await createDriver();
     await driver.get(baseUrl);
     await performLogin(driver);
+    await startProxyFlow(driver);
     await appManagerTest(driver);
 
     const handles = await driver.getAllWindowHandles();

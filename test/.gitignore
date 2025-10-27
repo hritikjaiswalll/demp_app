@@ -33,8 +33,6 @@ coverage/
 logs/
 
 # Reports
-mochawesome-report/assets/
-reports/
 
 
 # Screenshots

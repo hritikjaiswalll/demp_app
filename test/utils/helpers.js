@@ -16,4 +16,8 @@ export async function getText(driver, locator) {
   const el = await driver.findElement(locator);
   return await el.getText();
 }
+
+export function getLinkByVisibleTextContains(searchTerm) {
+  return By.xpath(`//a[contains(normalize-space(text()), '${searchTerm}')]`);
+}
 //tester

@@ -1,12 +1,14 @@
 export const baseUrl = "https://wcpdev.wd101.myworkday.com/maksegroup_wcpdev2/d/home.htmld";
-
+export const proxyUrl = "https://wcpdev.wd101.myworkday.com/maksegroup_wcpdev2/d/task/2997$6729.htmld"
 
 export const users = {
   standard: {
-    username: "ssatyansh",
-    password: "Checking@123",
+    username: "hritik.jaiswal@maksegroup.com",
+    password: "Hritik@0987",
     searchTerm: "App Manager",
-    appName: "TRAINING: Manish Sharma (CRUD App)"
+    appName: "TRAINING: Manish Sharma (CRUD App)",
+    proxyName: "Logan Mcneil",
+    customTaskName: "Activate Pending Security Policies"
   }
 };
 

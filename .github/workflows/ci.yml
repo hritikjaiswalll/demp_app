@@ -14,21 +14,32 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
+      # 🔹 Single step for setup + install
+      - name: Setup Node.js 18, install dependencies, and build
+        run: |
+          echo "🔹 Setting up Node.js 18..."
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          node -v
+          npm -v
 
-      - name: Install dependencies
+          echo "📦 Installing dependencies..."
+          cd test
+          npm ci
+
+          echo "✅ Environment and dependencies ready."
+
+      # 🔹 Separate step for Selenium test execution and Mochawesome
+      - name: Run Selenium Tests with Mochawesome
         working-directory: ./test
-        run: npm ci
+        run: |
+          echo "🚀 Running Selenium tests with Mocha + Mochawesome..."
+          npx mocha tests/demoApp/app.test.js --timeout 900000 --reporter mochawesome
+          echo "✅ Tests completed."
 
-      - name: Run Selenium Tests (mocha + mochawesome)
-        working-directory: ./test
-        run: npx mocha tests/demoApp/app.test.js --timeout 900000 --reporter mochawesome
-
-      - name: Upload Mochawesome Report
+      # 🔹 Upload full Mochawesome report folder
+      - name: 📄 Upload full Mochawesome report
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
-          path: test/mochawesome-report/mochawesome.html
+          path: test/mochawesome-report
