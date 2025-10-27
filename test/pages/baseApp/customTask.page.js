@@ -4,7 +4,7 @@ const { until, Key } = webdriver;
 import { HomepageLocators as locators } from "../../locators/baseApp/appManager.locators.js";
 import {customTaskLocators as customLocators} from "../../locators/baseApp/customTask.locators.js"
 import { users } from "../../utils/config.js";
-import { getLinkByVisibleTextContains } from "../../utils/helpers.js";
+import { getLinkByVisibleTextContains, click, type, getText } from "../../utils/helpers.js";
 import path from "path";
 
 
@@ -71,13 +71,13 @@ async function searchForItem(driver, searchTerm) {
 }
 // different naming convention for pages 
 export async function customTaskSearch(driver, text, timeout = 15000) {
-  // await driver.sleep(1000);
-  // await click(driver, locators.searchBox);
-  // await driver.sleep(1000);
-  // await type(driver, locators.searchBox, text);
-  // const searchBox = await driver.findElement(locators.searchBox);
-  // await driver.sleep(1000);
-  // await searchBox.sendKeys(Key.RETURN);
+   await driver.sleep(1000);
+  await click(driver, locators.searchBox);
+  await driver.sleep(1000);
+  await type(driver, locators.searchBox, text);
+  const searchBox = await driver.findElement(locators.searchBox);
+  await driver.sleep(1000);
+  await searchBox.sendKeys(Key.RETURN);
   //await click(driver,locators.searchIcon);
   let listItems=[];
   try {
@@ -85,7 +85,9 @@ export async function customTaskSearch(driver, text, timeout = 15000) {
       until.elementsLocated(locators.searchResultList),
       timeout
     );
+    console.log("DEBUG: Search results located");
     listItems = await driver.findElements(locators.searchResultList);
+    console.log(`DEBUG: Number of search results found: ${listItems.length}`);
   }catch(err){
     throw new Error(`No search results found for "${text}"`);
   }
@@ -93,11 +95,13 @@ export async function customTaskSearch(driver, text, timeout = 15000) {
   for (const item of listItems) {
     try {
       const anchor = await item.findElement(locators.searchResultItem);
+      console.log("DEBUG: Found search result item");
       const resultText = await anchor.getText();
       if (resultText.trim().toLowerCase() === text.trim().toLowerCase()) {
         await driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", anchor);
         await driver.sleep(300); // optional: helps in case of animations or delayed render
         await anchor.click();
+        console.log(`✅ Found and clicked on search result: "${text}"`);
         return; // stop after finding the match
       }
     } catch (e) {

@@ -6,7 +6,7 @@ export async function createDriver() {
   const options = new chrome.Options();
 
   // ✅ Use the new headless mode (recommended for Chrome 109+)
-  // options.addArguments("--headless=new");
+  options.addArguments("--headless=new");
 
   // ✅ Explicit 1080p resolution
   options.addArguments("--window-size=1920,1080");

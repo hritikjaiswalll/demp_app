@@ -11,6 +11,11 @@ export const HomepageLocators = {
   appSearchInput: By.css('input[data-automation-id="textInputBox"]'),
   filterButton: By.css('button[data-automation-id="uic_filterButton"]'),
   viewApp: By.css('div[data-automation-label="View App"]'),
-  topSearchIcon: By.css('div.wdappchrome-aan > svg.wd-icon-search')
+  topSearchIcon: By.css('div.wdappchrome-aan > svg.wd-icon-search'),
+  searchBox : By.css('[data-automation-id="globalSearchInput"]'),
+  profileIcon : By.css('[data-automation-id="Current_User"]'),
+  searchResultList : By.css('li.pexsearch-1kpw85o-listItem'),
+  searchResultItem : By.css('a[data-automation-id="pex-search-results-header-title-link"]'),
+  proxyBanner : By.xpath("//div[@data-automation-id='banner']//span[contains(text(), 'On behalf of')]")
 };
 //  css: 'input[data-automation-id="globalSearchInput"]' 
